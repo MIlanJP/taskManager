@@ -1,0 +1,7 @@
+.firstCol{
+    display: flex;
+    flex-direction: column;
+}
+.form{
+    padding-bottom:10px ;
+}
