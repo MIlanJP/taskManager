@@ -16,6 +16,18 @@ const tasksList = [
     name: "TaskB",
     date: "May 28 2021",
   },
+  {
+    name: "Task7",
+    date: "May 28 2021",
+  },
+  {
+    name: "Task9",
+    date: "May 28 2021",
+  },
+  {
+    name: "Task99",
+    date: "May 28 2021",
+  },
 ];
 
 const Tasks = () => {
@@ -24,14 +36,19 @@ const Tasks = () => {
   const [zeroState, displayZeroState] = React.useState(true);
   const [showAddButton, toggleAddButton] = React.useState(true);
 
-  const updateList=(data)=>{
-    const list=taskList
-    list.push({name:data,date:startDate.toDateString()})
-    console.log(list)
-    setTaskList(list)
+  const updateList = (data) => {
+    const list = taskList;
+    list.push({
+      name: data,
+      date:
+        startDate !== null
+          ? startDate.toDateString()
+          : new Date().toDateString(),
+    });
+    console.log(list);
+    setTaskList(list);
     console.log(taskList);
-  }
-  
+  };
 
   return (
     <>
@@ -52,8 +69,11 @@ const Tasks = () => {
             </IconButton>
           </span>
         ) : (
-          <span className={style.form} >
-            <AddTaskForm updateList={updateList} toggleAddButton={toggleAddButton}/>
+          <span className={style.form}>
+            <AddTaskForm
+              updateList={updateList}
+              toggleAddButton={toggleAddButton}
+            />
           </span>
         )}
         <span>
@@ -80,27 +100,29 @@ const Tasks = () => {
         </span>
       </div>
       <Icon className="fa fa-plus-circle" color="primary" />
-      {taskList.map((data, index) => {
-        const dateOfTask = new Date(data.date);
-        const dateOfSelectedDate = new Date(startDate);
-        if (
-          `${dateOfTask.getDate()}/${dateOfTask.getMonth()}/${dateOfTask.getFullYear()}` ===
-          `${dateOfSelectedDate.getDate()}/${dateOfSelectedDate.getMonth()}/${dateOfSelectedDate.getFullYear()}`
-        ) {
-          return (
-            <>
-              <Task name={data.name} dateOfTask={dateOfTask} />
-            </>
-          );
-        } else if (startDate === null) {
-          return (
-            <>
-              {" "}
-              <Task name={data.name} dateOfTask={dateOfTask} />
-            </>
-          );
-        }
-      })}
+      <div className={style.taskCol}>
+        {taskList.map((data, index) => {
+          const dateOfTask = new Date(data.date);
+          const dateOfSelectedDate = new Date(startDate);
+          if (
+            `${dateOfTask.getDate()}/${dateOfTask.getMonth()}/${dateOfTask.getFullYear()}` ===
+            `${dateOfSelectedDate.getDate()}/${dateOfSelectedDate.getMonth()}/${dateOfSelectedDate.getFullYear()}`
+          ) {
+            return (
+              <>
+                <Task name={data.name} dateOfTask={dateOfTask} />
+              </>
+            );
+          } else if (startDate === null) {
+            return (
+              <>
+                {" "}
+                <Task name={data.name} dateOfTask={dateOfTask} />
+              </>
+            );
+          }
+        })}
+      </div>
     </>
   );
 };
